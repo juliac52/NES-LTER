@@ -1,6 +1,7 @@
+setwd("/Users/juliacox/Desktop/NES-LTER/Zoop")
 library(tidyverse)
 library(readxl)
-EcoMon_Plankton_Data_v3_1_2_ <- read_excel("~/Desktop/NES-LTER/Zoop/EcoMon_Plankton_Data_v3_1 (2).xlsx", + sheet = "Data")
+EcoMon_Plankton_Data_v3_1_2_ <- read_excel("EcoMon_Plankton_Data_v3_1 (2).xlsx", sheet = "Data")
 #import raw data file 
 
 EcoMon <- EcoMon_Plankton_Data_v3_1_2_
@@ -39,4 +40,6 @@ nes_zoo_wide_ymd <- nes_zoo_wide %>% separate(date, sep ="-", into = c("year", "
 library(ggplot2)
 ggplot(nes_zoo_wide, aes(x=date, y=calfin_10m2)) + geom_smooth() #Calanus finmarchicus 
 
-View(nes_zoo_wide)
+getwd()
+
+
