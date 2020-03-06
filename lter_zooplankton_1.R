@@ -38,7 +38,3 @@ nes_zoo_wide_ymd <- nes_zoo_wide %>% separate(date, sep ="-", into = c("year", "
 
 
 
-
-
-
-
