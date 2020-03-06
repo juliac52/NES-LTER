@@ -8,11 +8,11 @@ EcoMon <- EcoMon_Plankton_Data_v3_1_2_
 
 install.packages("data.table")
 library(data.table)
-nes_lat <- setDT(EcoMon)[!(lat %between% c(0, 39.5) | lat %between% c(41.4, 50))]
+nes_lat <- setDT(EcoMon)[!(lat %between% c(0, 39.5) | lat %between% c(41.33, 50))]
 #only include latitudes between 39.5 and 41.4 
 range(nes_lat$lat)
 #view range of latitudes to make sure it worked 
-nes <- setDT(nes_lat)[!(lon %between% c(-69.5, 0) | lon %between% c(-76,-71.5))]
+nes <- setDT(nes_lat)[!(lon %between% c(-69, 0) | lon %between% c(-76,-72))]
 #only include longitudes between 69.5 and 71.5 
 range(nes$lat)
 range(nes$lon)
@@ -36,5 +36,6 @@ plot(nes_zoo_wide$date, type = 'o', pch = '|', ylab = '')
 nes_zoo_wide_ymd <- nes_zoo_wide %>% separate(date, sep ="-", into = c("year", "month", "day"))
 #separate date into year, month, and day 
 
+range(nes_zoo_long$lat)
 
 
