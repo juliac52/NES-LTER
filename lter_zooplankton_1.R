@@ -37,9 +37,8 @@ nes_zoo_wide_ymd <- nes_zoo_wide %>% separate(date, sep ="-", into = c("year", "
 #separate date into year, month, and day 
 
 
-library(ggplot2)
-ggplot(nes_zoo_wide, aes(x=date, y=calfin_10m2)) + geom_smooth() #Calanus finmarchicus 
 
-getwd()
+
+
 
 
