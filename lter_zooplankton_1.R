@@ -34,8 +34,32 @@ plot(nes_zoo_wide$date, type = 'o', pch = '|', ylab = '')
 #attempt to see what dates are missing, didn't work 
 
 nes_zoo_wide_ymd <- nes_zoo_wide %>% separate(date, sep ="-", into = c("year", "month", "day"))
+nes_zoo_long_ymd <- nes_zoo_long %>% separate(date, sep ="-", into = c("year", "month", "day"))
 #separate date into year, month, and day 
 
-range(nes_zoo_long$lat)
+range(nes_zoo_long$sfc_temp, na.rm = TRUE)
 
+range(nes_zoo_long$date)
 
+nes_zoo_wide_ymd$date <- nes_zoo_wide$date
+nes_zoo_long_ymd$date <- nes_zoo_long$date
+#add date column to ymd dataframes 
+
+View(nes_zoo_long_ymd)
+
+ctyp <- subset(nes_zoo_long_ymd, taxa=="ctyp_10m2")
+calfin <- subset(nes_zoo_long_ymd, taxa=="calfin_10m2")
+larv <- subset(nes_zoo_long_ymd, taxa=="larvaceans_10m2")
+#make subset dataframes with only one taxa 
+
+lat10 <- subset(nes_zoo_long_ymd, bins=="[41.147-41.33")
+lat9 <- subset(nes_zoo_long_ymd, bins=="[40.964-41.147)")
+lat8 <- subset(nes_zoo_long_ymd, bins=="[40.781-40.964)")
+lat7 <- subset(nes_zoo_long_ymd, bins=="[40.598-40.781)")
+lat6 <- subset(nes_zoo_long_ymd, bins=="[40.415-40.598)")
+lat5 <- subset(nes_zoo_long_ymd, bins=="[40.232-40.415)")
+lat4 <- subset(nes_zoo_long_ymd, bins=="[40.049-40.232)")
+lat3 <- subset(nes_zoo_long_ymd, bins=="[39.866-40.049)")
+lat2 <- subset(nes_zoo_long_ymd, bins=="[39.683-39.866)")
+
+View(nes_zoo_long_ymd)

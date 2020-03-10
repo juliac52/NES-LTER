@@ -27,4 +27,30 @@ ggplot(data = as_tibble(group_tags_wide), mapping = aes(x=nes_zoo_wide$calfin_10
   stat_count(geom="text", aes(label=sprintf("%.4f",..count../length(group_tags))), vjust=-0.5) +
   labs(x='Zooplankton per 10m2') +
   theme_minimal() 
+#tried to make binned spatial plot, didn't work 
+
+ggplot(data=calfin,
+       aes(x=date, y=organisms_per_10m2, colour=bins)) + geom_smooth(method = loess, span = 0.1, data = subset (nes_zoo_long,taxa == "tlong_10m2"), stat = "identity")+
+  theme_classic(base_size = 15) +labs(y= expression("Organisms per 10m"^{2}), x = "Date") 
+#tried plotting taxa densities by latitudinal bins, data seems to be too spiky
+
+ggplot(data=nes_zoo_long,
+      aes(x=bins, y=organisms_per_10m2, colour=taxa)) + geom_bar(stat = "identity")+
+  theme_classic(base_size = 15) +labs(y= expression("Organisms per 10m"^{2}), x = "Latitude") 
+#rough offshore onshore plot of taxa densities 
+
+ggplot(data=calfin,
+       aes(x=sfc_temp, y=organisms_per_10m2, colour=taxa)) + geom_count(stat = "identity")+
+  theme_classic(base_size = 15) +labs(y= expression("Organisms per 10m"^{2}), x = "Surface Temp") 
+#rough plot of temperature vs. taxa density 
+
+ggplot(data=larv,
+       aes(x=year, y=organisms_per_10m2, colour=month)) + geom_bar(stat = "identity")+
+  theme_classic(base_size = 15) +labs(y= expression("Organisms per 10m"^{2}), x = "Date") 
+#plot of one taxa's density by month over time series 
+
+ggplot(data=lat5,
+       aes(x=date, y=organisms_per_10m2, colour=taxa))  + geom_smooth() +
+  theme_classic(base_size = 15) +labs(y= expression("Organisms per 10m"^{2}), x = "Date")
+
 
