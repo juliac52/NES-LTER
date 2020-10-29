@@ -18,7 +18,7 @@ group_tags_wide <- cut(nes_zoo_wide$lat,
                   labels=tags, mean)
 
 nes_zoo_long$bins <- cut(nes_zoo_long$lat, breaks=breaks, labels=tags) 
-#add column to nes_zoo_long denoting latitudinal bins 
+#add column to nes_zoo_long_ymd denoting latitudinal bins 
 
 #-----------------------------------------------------------------------
 
@@ -26,5 +26,45 @@ group_tags_long_ymd <- cut(nes_zoo_long_ymd$lat,
                        breaks=breaks, 
                        include.lowest=TRUE, 
                        right=FALSE, 
-                       labels=tags)s
+                       labels=tags)
 
+#-----------------------------------------------------------------------
+#Regime shift binning:
+#convert year column to numeric 
+nes_zoo_long_ymd$year <- as.numeric(nes_zoo_long_ymd$year)
+#break dataframe into PC1 and PC2 regime shift chunks 
+breaksPC1 <- c(1976,1988,1994,2002,2015)
+breaksPC2 <- c(1976,1996,2015)
+
+tagsPC1 <- c("1977-1988","1989-1994","1995-2002","2003-2015")
+tagsPC2 <- c("1977-1996","1997-2015")
+#bucketing values into bins 
+group_tagsPC1_long <- cut(nes_zoo_long_ymd$year, 
+                       breaks=breaksPC1, 
+                       include.lowest=FALSE, 
+                       right=FALSE, 
+                       labels=tagsPC1)
+
+group_tagsPC2_long <- cut(nes_zoo_long_ymd$year,
+                          breaks = breaksPC2,
+                          include.lowest = FALSE,
+                          right = FALSE,
+                          labels = tagsPC2)
+#add new columns to dataframe 
+nes_zoo_long_ymd$PC1_year_bins <- cut(nes_zoo_long_ymd$year, breaks=breaksPC1, labels=tagsPC1) 
+nes_zoo_long_ymd$PC2_year_bins <- cut(nes_zoo_long_ymd$year, breaks=breaksPC2, labels=tagsPC2) 
+View(nes_zoo_long_ymd)
+
+#subset dataframe based on regime shifts
+sub_77_88 <- subset(nes_zoo_long_ymd, PC1_year_bins == "1977-1988")
+sub_89_94 <- subset(nes_zoo_long_ymd, PC1_year_bins == "1989-1994")
+sub_95_02 <- subset(nes_zoo_long_ymd, PC1_year_bins == "1995-2002")
+sub_03_15 <- subset(nes_zoo_long_ymd, PC1_year_bins == "2003-2015")
+#-------------------------------------------------------------------
+#PCA data frame restructuring 
+#find annual averages
+yearly_averages <- aggregate(nes_zoo_wide_ymd[, 17:22], list(nes_zoo_wide_ymd$year), mean, na.rm=TRUE)
+#rename year column 
+library(dplyr)
+yearly_averages <- yearly_averages %>% 
+                    rename(Year = Group.1)
