@@ -35,19 +35,37 @@ ggplot(data=calfin,
 #tried plotting taxa densities by latitudinal bins, data seems to be too spiky
 
 ggplot(data=nes_zoo_long,
-      aes(x=bins, y=organisms_per_10m2, colour=taxa)) + geom_bar(stat = "identity")+
+      aes(x=bins, y=organisms_per_10m2, fill=taxa)) + geom_bar(stat = "identity")+
   theme_classic(base_size = 15) +labs(y= expression("Organisms per 10m"^{2}), x = "Latitude") 
-#rough offshore onshore plot of taxa densities 
+#rough offshore onshore stacked bar plot of taxa densities 
 
+#onshore offshore stacked bar plots of taxa densities by regime 
+ggplot(data=sub_77_88,
+       aes(x=bins, y=organisms_per_10m2, fill=taxa)) + geom_bar(stat = "identity")+
+  theme_classic(base_size = 15) +labs(y= expression("Organisms per 10m"^{2}), x = "Latitude") +
+  coord_flip() + scale_x_discrete(limits = rev(levels(sub_77_88$lat)))
+ggplot(data=sub_89_94,
+       aes(x=bins, y=organisms_per_10m2, fill=taxa)) + geom_bar(stat = "identity")+
+  theme_classic(base_size = 15) +labs(y= expression("Organisms per 10m"^{2}), x = "Latitude") +
+  coord_flip() + scale_x_discrete(limits = rev(levels(sub_89_94$lat)))
+ggplot(data=sub_95_02,
+       aes(x=bins, y=organisms_per_10m2, fill=taxa)) + geom_bar(stat = "identity")+
+  theme_classic(base_size = 15) +labs(y= expression("Organisms per 10m"^{2}), x = "Latitude") +
+  coord_flip() + scale_x_discrete(limits = rev(levels(sub_89_94$lat)))
+ggplot(data=sub_03_15,
+       aes(x=bins, y=organisms_per_10m2, fill=taxa)) + geom_bar(stat = "identity")+
+  theme_classic(base_size = 15) +labs(y= expression("Organisms per 10m"^{2}), x = "Latitude", title = "2003-2015") +
+  coord_flip() + scale_x_discrete(limits = rev(levels(sub_89_94$lat))) 
+
+#rough plot of temperature vs. taxa density 
 ggplot(data=calfin,
        aes(x=sfc_temp, y=organisms_per_10m2, colour=taxa)) + geom_count(stat = "identity")+
   theme_classic(base_size = 15) +labs(y= expression("Organisms per 10m"^{2}), x = "Surface Temp") 
-#rough plot of temperature vs. taxa density 
 
+#plot of one taxa's density by month over time series 
 ggplot(data=larv,
        aes(x=year, y=organisms_per_10m2, colour=month)) + geom_bar(stat = "identity")+
   theme_classic(base_size = 15) +labs(y= expression("Organisms per 10m"^{2}), x = "Date") 
-#plot of one taxa's density by month over time series 
 
 ggplot(data=lat5,
        aes(x=date, y=organisms_per_10m2, colour=taxa))  + geom_smooth() +

@@ -6,7 +6,11 @@ EcoMon_Plankton_Data_v3_1_2_ <- read_excel("EcoMon_Plankton_Data_v3_1 (2).xlsx",
 
 EcoMon <- EcoMon_Plankton_Data_v3_1_2_
 
-install.packages("data.table")
+#isolate Southern New England shelf (39.5-41.33 deg. N, 69-75 deg. W)
+nes <- EcoMon_Plankton_Data_v3_1_2_[EcoMon_Plankton_Data_v3_1_2_$lat>=39.5000 & EcoMon_Plankton_Data_v3_1_2_$lat<41.33001 & EcoMon_Plankton_Data_v3_1_2_$lon>=(-72.0000) & EcoMon_Plankton_Data_v3_1_2_$lon<(-69.00001),]
+
+#install.packages("data.table")
+#another way of isolating certain region by lat and lon
 library(data.table)
 nes_lat <- setDT(EcoMon)[!(lat %between% c(0, 39.5) | lat %between% c(41.33, 50))]
 #only include latitudes between 39.5 and 41.4 
@@ -63,3 +67,12 @@ lat3 <- subset(nes_zoo_long_ymd, bins=="[39.866-40.049)")
 lat2 <- subset(nes_zoo_long_ymd, bins=="[39.683-39.866)")
 
 View(nes_zoo_long_ymd)
+
+View(nes)
+write.csv(nes, "NES.csv") 
+getwd()
+
+
+
+
+
