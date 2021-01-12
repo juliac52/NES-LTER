@@ -169,3 +169,11 @@ for (i in GeoBin$bin_name) {
   LonW = LonW + 0.17116 
 }
                
+#example of binning zooplankton 
+Gridded_Zoops<-EcoMon %>% 
+  mutate(binlon = cut(lon, seq(from = min(-72), to = max(-69), by = .25), include.lowest = T, right = F),
+         binlat = cut(lat, seq(from = min(39.5), to = max(41.5), by = .25), include.lowest = T, right = F)) %>% 
+  group_by(Year, binlat= forcats::fct_explicit_na(binlat), binlon=forcats::fct_explicit_na(binlon), .drop=FALSE) %>% 
+  summarise(calfin_100m3_binned = mean(calfin_100m3, na.rm=TRUE), ctyp_100m3_binned=mean(ctyp_100m3, na.rm=TRUE), pseudo_100m3_binned=mean(pseudo_100m3, na.rm=TRUE), hyper_100m3_binned=mean(hyper_100m3, na.rm=TRUE),
+            poly_100m3_binned=mean(poly_100m3, na.rm=TRUE), mlucens_100m3_binned=mean(mlucens_100m3, na.rm=TRUE), larvaceans_100m3_binned=mean(larvaceans_100m3, na.rm=TRUE),
+            ammspp_100m3_binned=mean(ammspp_100m3, na.rm=TRUE), tlong_100m3_binned=mean(tlong_100m3, na.rm=TRUE))
