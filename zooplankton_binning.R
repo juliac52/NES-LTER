@@ -1,7 +1,7 @@
 # set up cut-off values 
 breaks <- c(39.5,39.683,39.866,40.049,40.232,40.415,40.598,40.781,40.964,41.147,41.33)
 # specify interval/bin labels
-tags <- c("[39.5-39.683", "[39.683-39.866)", "[39.866-40.049)", "[40.049-40.232)", "[40.232-40.415)", "[40.415-40.598)","[40.598-40.781)", "[40.781-40.964)","[40.964-41.147)","[41.147-41.33")
+tags <- c("[39.5-39.683)", "[39.683-39.866)", "[39.866-40.049)", "[40.049-40.232)", "[40.232-40.415)", "[40.415-40.598)","[40.598-40.781)", "[40.781-40.964)","[40.964-41.147)","[41.147-41.33")
 # bucketing values into bins
 group_tags_long <- cut(nes_zoo_long$lat, 
                   breaks=breaks, 
@@ -111,3 +111,61 @@ fall_yearly_averages <- fall_yearly_averages %>%
 
 spring_yearly_averages$Year <- as.numeric(spring_yearly_averages$Year)
 fall_yearly_averages$Year <- as.numeric(fall_yearly_averages$Year)
+
+################################################################################################
+#Bin into 2D bins by latitude and longitude 
+library(ash)
+#nbin <- c(8.5665,14.9915)
+nbin<-c(8,8)
+ab <- matrix( c(-5,-5,5,5), 2, 2) 
+bins <- bin2(cbind(nes_zoo_long$lat,nes_zoo_long$lon),nbin,ab)
+bins2D <- ash2(bins)
+image(bins$x,bins$y)
+#1. Create 2D bins - some sort of loop to choose values 
+# range(nes_zoo_long$lat):39.6167 41.3283, 1.7116 degree range
+# range(nes_zoo_long$lon):-71.9983 -69.0017, 2.9966 degree range
+# 10 bins in the y axis, 0.17116 square degree bins, 16.91 bins in the x axis (2.9966/0.17116)
+#2. Assign data to these bins 
+GeoBin <- 	data.frame(
+  bin_name = c(1:10), # cruise_name probably not needed 
+  LatN = c(30,40,50,0,0,0,0,0,0,0), 
+  LonW = c(60,70,80,0,0,0,0,0,0,0),
+  LatS = c(90,91,92,0,0,0,0,0,0,0),
+  LonE = c(0,0,0,0,0,0,0,0,0,0)
+)
+print(GeoBin)          # print the whole example data frame
+print(GeoBin[3,2])     # just one element, indexing or slicing
+#  GeoBin[column, row] 
+print(GeoBin$LatN[3]) # same element but with column reference
+
+for (i in GeoBin$bin_name) {
+  print(i)
+}
+for (i in c(1:10)) {
+  print(GeoBin$LonW[i])
+}
+for (bin in GeoBin$LatS) {
+  print(bin)
+}
+
+GeoBin <- 	data.frame(
+  bin_name = c(1:170), 
+  LatN = c(0), 
+  LonW = c(0),
+  LatS = c(0),
+  LonE = c(0)
+)
+#start at 39.6167 for LatN and add 0.17116 170 times
+latNstart <- 39.6167
+lonWstart <- -71.9983
+
+LonW = lonWstart
+for (i in GeoBin$bin_name) {
+  LatN = latNstart
+  for () {
+    GeoBin$LatN[i] = LatN
+    LatN = LatN + 0.17116
+  }
+  LonW = LonW + 0.17116 
+}
+               
